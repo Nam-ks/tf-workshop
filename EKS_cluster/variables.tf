@@ -6,9 +6,11 @@ locals {
   private_subnets  = ["10.0.11.0/24", "10.0.12.0/24"]
   tag              = "nam-terra"
   worker_node_instance_type = "t3.small"
-  cluster_admin = "552166050235"
+  bastion_instance_type  = "t3.small"
+  cluster_admin     = "552166050235"
   any_protocol         = "-1"
   tcp_protocol         = "tcp"
+  ssh_port            = "22"
   icmp_protocol        = "icmp"
   all_network          = "0.0.0.0/0"
 }
