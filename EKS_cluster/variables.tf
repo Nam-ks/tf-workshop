@@ -7,4 +7,8 @@ locals {
   tag              = "nam-terra"
   worker_node_instance_type = "t3.small"
   cluster_admin = "552166050235"
+  any_protocol         = "-1"
+  tcp_protocol         = "tcp"
+  icmp_protocol        = "icmp"
+  all_network          = "0.0.0.0/0"
 }

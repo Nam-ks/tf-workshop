@@ -97,3 +97,77 @@ module "eks" {
     Name = "${local.tag}_eks_cluster"
   }
 }
+
+
+#----------------------------------------------------------------------------#
+# bastionhost 보안 그룹 정의 ( 어디든 접근 가능 ) , eip 할당
+# key pair 로 ec2 생성 및 설정 후 data 참조로 아웃풋 지정
+#----------------------------------------------------------------------------#
+
+# Security-Group (BastionHost)
+module "BastionHost_SG" {
+  source          = "terraform-aws-modules/security-group/aws"
+  version         = "5.1.0"
+  name            = "${local.tag}-BastionHost-Security"
+  description     = "BastionHost_SG"
+  vpc_id          = module.vpc.vpc_id
+  use_name_prefix = "false"
+
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = local.ssh_port
+      to_port     = local.ssh_port
+      protocol    = local.tcp_protocol
+      description = "SSH"
+      cidr_blocks = local.all_network
+    },
+    {
+      from_port   = local.any_protocol
+      to_port     = local.any_protocol
+      protocol    = local.icmp_protocol
+      description = "ICMP"
+      cidr_blocks = local.cidr
+    },
+
+  ]
+  tags = {
+    Name = "${local.tag}_bastionhost_sg"
+  }
+}
+
+# BastionHost EIP
+resource "aws_eip" "BastionHost_eip" {
+  instance = aws_instance.BastionHost.id
+  tags = {
+    Name = "${local.tag}_bastionhost_EIP"
+  }
+}
+
+# BastionHost Key-Pair DataSource
+data "aws_key_pair" "EC2-Key" {
+  key_name = "EC2-key"
+}
+
+# BastionHost Instance
+# EKS Cluster SG : data.aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id 
+resource "aws_instance" "BastionHost" {
+  ami                         = "ami-0ea4d4b8dc1e46212"
+  instance_type               = local.bastion_instance_type
+  key_name                    = data.aws_key_pair.EC2-Key.key_name
+  subnet_id                   = local.public_subnets[0]
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks.cluster_security_group_id]
+
+  tags = {
+    Name = "${local.tag}_bastion_host"
+  }
+}
+
+data "aws_instance" "bastion" {
+  filter {
+    name   = "tag:Name"
+    values = ["${local.tag}_bastion_host"]
+  }
+
+
+}
