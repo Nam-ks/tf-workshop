@@ -13,7 +13,6 @@ output "public_subnets" {
   description = "Public_Subnets Output"
 }
 
-
 output "private_subnets" {
   value       = module.vpc.private_subnets
   description = "Private_Subnets Output"

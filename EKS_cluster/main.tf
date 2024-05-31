@@ -7,10 +7,10 @@ terraform {
   }
 }
 
+# Configure the AWS Provider
 provider "aws" {
-  region = "ap-northeast-2"
+  region = local.region
 }
-
 
 #----------------------------------------------------------------------------------#
 # vpc를 구성하는 모듈이며 name, cidr, 퍼블릭 및 프라이빗 cidr값을 입력해주어야한다.
@@ -56,33 +56,11 @@ module "vpc" {
   }
 }
 
-#----------------------------------------------------------------------------#
-# Kubernetes 추가 Provider
-# EKS Cluster 구성 후 초기 구성 작업을 수행하기 위한 Terraform Kubernetes Provider 설정 
-# 생성 된 EKS Cluster의 EndPoint 주소 및 인증정보등을 DataSource로 정의 후 Provider 설정 정보로 입력
-#----------------------------------------------------------------------------#
-
-
-# AWS EKS Cluster Data Source
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
-}
-
-# AWS EKS Cluster Auth Data Source
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
-}
-
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
-}
 
 #----------------------------------------------------------------------------#
 # 붙일 vpc, name, version, subnet, oidc, worker node정의하여 생성
-# 워커 노드 그룹의 최소 최대 요구 개수를 입력받아 변경 가능하고 기본값이 각 242로 지정
-# instance_type 기본값은 t3.small 이며 변경가능
+# 워커 노드 그룹의 최소 최대 요구 개수를 입력받아 변경 가능하고 기본값이 각 232로 지정
+# role은 미리 정의하여 배포되어 있다고 가정
 #----------------------------------------------------------------------------#
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -94,7 +72,7 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
-  subnet_ids                      = module.vpc.private_subnets.subnet_ids
+  subnet_ids                      = module.vpc.private_subnets
   
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
@@ -119,6 +97,5 @@ module "eks" {
     Name = "${local.tag}_eks_cluster"
   }
 }
-
 
 
