@@ -81,8 +81,8 @@ module "eks" {
     initial = {
       instance_types         = ["${local.worker_node_instance_type }"]
       create_security_group  = false
-      create_launch_template = false 
-      launch_template_name   = ""    
+      create_launch_template = false
+      launch_template_name   = "nam_temp_null_terra"
 
       min_size     = "2"
       max_size     = "3"
@@ -97,5 +97,3 @@ module "eks" {
     Name = "${local.tag}_eks_cluster"
   }
 }
-
-
