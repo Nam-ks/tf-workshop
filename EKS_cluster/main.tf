@@ -68,7 +68,7 @@ module "eks" {
 
   # EKS Cluster Setting
   cluster_name                    = "nam-terra-eks"
-  cluster_version                 = "~> 20.0"
+  cluster_version                 = "1.29"
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
