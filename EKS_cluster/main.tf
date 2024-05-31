@@ -77,18 +77,18 @@ module "eks" {
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
   # EKS Worker Node 정의 ( ManagedNode방식 / Launch Template 자동 구성 )
-  eks_managed_node_groups = {
-    initial = {
-      instance_types         = ["${local.worker_node_instance_type }"]
-      create_security_group  = false
-      create_launch_template = false
-      launch_template_name   = "nam_temp_null_terra"
+  # eks_managed_node_groups = {
+  #   initial = {
+  #     instance_types         = ["${local.worker_node_instance_type }"]
+  #     create_security_group  = false
+  #     create_launch_template = false
+  #     launch_template_name   = "nam_temp_null_terra"
 
-      min_size     = "2"
-      max_size     = "3"
-      desired_size = "2"
-    }
-  }
+  #     min_size     = "2"
+  #     max_size     = "3"
+  #     desired_size = "2"
+  #   }
+  # }
 
   # K8s role 과 연동
   iam_role_arn = "arn:aws:iam::552166050235:role/eksClusterRole"
