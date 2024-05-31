@@ -145,7 +145,7 @@ resource "aws_eip" "BastionHost_eip" {
 
 # BastionHost Key-Pair DataSource
 data "aws_key_pair" "EC2-Key" {
-  key_name = "EC2-key"
+  key_name = "vault_lab_nam_key"
 }
 
 # BastionHost Instance
