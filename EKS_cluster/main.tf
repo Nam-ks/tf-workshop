@@ -64,6 +64,12 @@ module "vpc" {
 #----------------------------------------------------------------------------#
 # AWS EKS Cluster Data Source
 
+# cluster admin 데이터 참조로 id 값 참조
+data "aws_iam_user" "EKS_Admin_ID" {
+  user_name = "kw.nam"
+}
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.21.0"
@@ -85,6 +91,7 @@ module "eks" {
       #  instance_types         = ["${local.worker_node_instance_type }"]
       ami_type              = "AL2_x86_64"
       instance_types        = ["t3.medium"]
+      create_launch_template = false
       create_security_group = false
       use_name_prefix       = false
       #  create_launch_template = false
@@ -102,11 +109,12 @@ module "eks" {
   manage_aws_auth_configmap = true
   aws_auth_users = [
     {
-      userarn  = "arn:aws:iam::552166050235:user/kw.nam"
-      username = "kw.nam"
+      userarn  = "arn:aws:iam::${data.aws_iam_user.EKS_Admin_ID.user_id}:user/admin"
+      username = "admin"
       groups   = ["system:masters"]
     },
   ]
+
   tags = {
     Name = "${local.tag}_eks_cluster"
   }
