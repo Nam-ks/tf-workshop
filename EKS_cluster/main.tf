@@ -113,6 +113,7 @@ module "eks" {
   create_iam_role = false
   # 기존에 있던 role matching 
   iam_role_arn = "arn:aws:iam::552166050235:role/eksClusterRole"
+  
   tags = {
     Name = "${local.tag}_eks_cluster"
   }
