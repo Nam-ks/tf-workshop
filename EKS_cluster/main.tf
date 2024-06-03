@@ -91,7 +91,6 @@ module "eks" {
       #  instance_types         = ["${local.worker_node_instance_type }"]
       ami_type              = "AL2_x86_64"
       instance_types        = ["t3.medium"]
-      create_launch_template = false
       create_security_group = false
       use_name_prefix       = false
       #  create_launch_template = false
@@ -120,7 +119,10 @@ module "eks" {
   }
 }
 
-
+output "cluster" {
+  value       = module.eks.cluster_id
+  description = "eks_cluster_id for another works"
+}
 
 #----------------------------------------------------------------------------#
 # bastionhost 보안 그룹 정의 ( 어디든 접근 가능 ) , eip 할당
