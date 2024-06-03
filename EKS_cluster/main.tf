@@ -97,7 +97,6 @@ module "eks" {
   create_iam_role = false
   # 기존에 있던 role matching 
   iam_role_arn = "arn:aws:iam::552166050235:role/eksClusterRole"
-  kms_key_aliases = "eks1/nam-terra-eks"
   tags = {
     Name = "${local.tag}_eks_cluster"
   }
@@ -159,7 +158,7 @@ resource "aws_instance" "BastionHost" {
   ami                         = "ami-0b9a26d37416470d2"
   instance_type               = local.bastion_instance_type
   key_name                    = data.aws_key_pair.EC2-Key.key_name
-  subnet_id                   = local.public_subnets[0].id
+  subnet_id                   = module.vpc.public_subnets.id
   associate_public_ip_address = true
   vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks.cluster_security_group_id]
 
