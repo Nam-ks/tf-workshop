@@ -18,7 +18,7 @@ output "private_subnets" {
   description = "Private_Subnets Output"
 }
 
-output "cluster" {
+output "cluster_id" {
   value       = module.eks.cluster_id
   description = "eks_cluster_id for another works"
 }
