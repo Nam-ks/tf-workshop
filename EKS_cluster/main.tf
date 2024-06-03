@@ -75,7 +75,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
   subnet_ids                      = module.vpc.private_subnets
-  cluster_admin   = "arn:aws:iam::552166050235:user/kw.nam"
+
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
   #EKS Worker Node 정의 ( ManagedNode방식 / Launch Template 자동 구성 )
@@ -109,7 +109,7 @@ module "eks_aws-auth" {
   version = "20.12.0"
   
   manage_aws_auth_configmap = true
-    aws_auth_users = [
+  aws_auth_users = [
     {
       userarn  = "arn:aws:iam::552166050235:user/kw.nam"
       username = "kw.nam"
