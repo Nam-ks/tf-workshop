@@ -139,31 +139,31 @@ module "BastionHost_SG" {
   }
 }
 
-# # BastionHost EIP
-# resource "aws_eip" "BastionHost_eip" {
-#   instance = aws_instance.BastionHost.id
-#   tags = {
-#     Name = "${local.tag}_bastionhost_EIP"
-#   }
-# }
+# BastionHost EIP
+resource "aws_eip" "BastionHost_eip" {
+  instance = aws_instance.BastionHost.id
+  tags = {
+    Name = "${local.tag}_bastionhost_EIP"
+  }
+}
 
-# # BastionHost Key-Pair DataSource
-# data "aws_key_pair" "EC2-Key" {
-#   key_name = "vault_lab_nam_key"
-# }
+# BastionHost Key-Pair DataSource
+data "aws_key_pair" "EC2-Key" {
+  key_name = "vault_lab_nam_key"
+}
 
-# # BastionHost Instance
-# # EKS Cluster SG : data.aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id 
-# resource "aws_instance" "BastionHost" {
-#   ami                         = "ami-0ea4d4b8dc1e46212"
-#   instance_type               = local.bastion_instance_type
-#   key_name                    = data.aws_key_pair.EC2-Key.key_name
-#   subnet_id                   = local.public_subnets[0]
-#   associate_public_ip_address = true
-#   vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks.cluster_security_group_id]
+# BastionHost Instance
+# EKS Cluster SG : data.aws_eks_cluster.cluster.vpc_config[0].cluster_security_group_id 
+resource "aws_instance" "BastionHost" {
+  ami                         = "ami-0ea4d4b8dc1e46212"
+  instance_type               = local.bastion_instance_type
+  key_name                    = data.aws_key_pair.EC2-Key.key_name
+  subnet_id                   = local.public_subnets[0]
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks.cluster_security_group_id]
 
-#   tags = {
-#     Name = "${local.tag}_bastion_host"
-#   }
-# }
+  tags = {
+    Name = "${local.tag}_bastion_host"
+  }
+}
 
