@@ -7,16 +7,9 @@ locals {
   tag              = "nam-terra"
   worker_node_instance_type = "t3.small"
   bastion_instance_type  = "t3.small"
-  cluster_admin     = "552166050235"
   any_protocol         = "-1"
   tcp_protocol         = "tcp"
   ssh_port            = "22"
   icmp_protocol        = "icmp"
   all_network          = "0.0.0.0/0"
-  cluster_admin   = var.cluster_admin
-}
-
-variable "cluster_admin" {
-  description = "Cluster Admin IAM User Account ID"
-  type        = string
 }
