@@ -65,9 +65,6 @@ module "vpc" {
 # AWS EKS Cluster Data Source
 
 # cluster admin 데이터 참조로 id 값 참조
-data "aws_iam_user" "EKS_Admin_ID" {
-  user_name = "kw.nam"
-}
 
 
 module "eks" {
