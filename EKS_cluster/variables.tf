@@ -13,4 +13,10 @@ locals {
   ssh_port            = "22"
   icmp_protocol        = "icmp"
   all_network          = "0.0.0.0/0"
+  cluster_admin   = var.cluster_admin
+}
+
+variable "cluster_admin" {
+  description = "Cluster Admin IAM User Account ID"
+  type        = string
 }
