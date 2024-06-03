@@ -18,15 +18,15 @@ provider "aws" {
 #----------------------------------------------------------------------------------#
 # VPC
 module "vpc" {
-  source                             = "terraform-aws-modules/vpc/aws"
-  version = "5.8.1"
-  name                               = "nam-terra-vpc"
-  azs                                = local.azs
-  cidr                               = local.cidr
-  public_subnets                     = local.public_subnets
-  private_subnets                    = local.private_subnets
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  source                 = "terraform-aws-modules/vpc/aws"
+  version                = "5.8.1"
+  name                   = "nam-terra-vpc"
+  azs                    = local.azs
+  cidr                   = local.cidr
+  public_subnets         = local.public_subnets
+  private_subnets        = local.private_subnets
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
   one_nat_gateway_per_az = false
   private_route_table_tags = {
     "TerraformManaged" = "True"
@@ -42,7 +42,7 @@ module "vpc" {
   }
   public_subnet_tags = {
     "TerraformManaged" = "True"
-    "Name"                   = "${local.tag}_public_subnets"
+    "Name"             = "${local.tag}_public_subnets"
   }
   igw_tags = {
     "TerraformManaged" = "True"
@@ -67,7 +67,7 @@ module "vpc" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.21.0"
-  
+
   # EKS Cluster Setting
   cluster_name                    = "nam-terra-eks"
   cluster_version                 = "1.29"
@@ -82,13 +82,13 @@ module "eks" {
   eks_managed_node_groups = {
     # 그룹 이름(?) 
     initial = {
-    #  instance_types         = ["${local.worker_node_instance_type }"]
-    ami_type                   = "AL2_x86_64"
-    instance_types             = ["t3.medium"] 
-      create_security_group  = false
-      use_name_prefix            = false
-    #  create_launch_template = false
-      launch_template_name   = "nam_temp_null_terra"
+      #  instance_types         = ["${local.worker_node_instance_type }"]
+      ami_type              = "AL2_x86_64"
+      instance_types        = ["t3.medium"]
+      create_security_group = false
+      use_name_prefix       = false
+      #  create_launch_template = false
+      launch_template_name = "nam_temp_null_terra"
 
       min_size     = "2"
       max_size     = "3"
@@ -98,7 +98,7 @@ module "eks" {
   #role 생성 false
   create_iam_role = false
   # 기존에 있던 role matching 
-  iam_role_arn = "arn:aws:iam::552166050235:role/eksClusterRole"
+  iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
   manage_aws_auth_configmap = true
   aws_auth_users = [
     {
