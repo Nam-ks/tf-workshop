@@ -6,12 +6,12 @@
 
 # AWS EKS Cluster Data Source
 data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
+  name = "nam-terra-eks"
 }
 
 # AWS EKS Cluster Auth Data Source
 data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
+  name = "nam-terra-eks"
 }
 
 provider "kubernetes" {
@@ -39,7 +39,7 @@ module "load_balancer_controller_irsa_role" {
 
   oidc_providers = {
     main = {
-      provider_arn               = var.oidc_provider_arn
+      provider_arn               = local.oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
   }
@@ -54,13 +54,13 @@ module "load_balancer_controller_targetgroup_binding_only_irsa_role" {
 
   oidc_providers = {
     main = {
-      provider_arn               = var.oidc_provider_arn
+      provider_arn               = local.oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
   }
 
   tags = {
-    Name = "${var.tag}_terra_albcontroller_irsa"
+    Name = "${local.tag}_terra_albcontroller_irsa"
   }
 }
 
