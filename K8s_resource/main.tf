@@ -34,7 +34,7 @@ provider "helm" {
 module "load_balancer_controller_irsa_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name                              = "${local.name}-lb-controller-irsa-role"
+  role_name                              = "${local.tag}-lb-controller-irsa-role"
   attach_load_balancer_controller_policy = true
 
   oidc_providers = {
@@ -49,7 +49,7 @@ module "load_balancer_controller_irsa_role" {
 module "load_balancer_controller_targetgroup_binding_only_irsa_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name                                                       = "${local.name}-lb-controller-tg-binding-only-irsa-role"
+  role_name                                                       = "${local.tag}-lb-controller-tg-binding-only-irsa-role"
   attach_load_balancer_controller_targetgroup_binding_only_policy = true
 
   oidc_providers = {
