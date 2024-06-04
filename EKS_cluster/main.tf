@@ -110,7 +110,12 @@ module "eks" {
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
   subnet_ids                      = module.vpc.private_subnets
-  # cluster_security_group_id = module.eks_SG.security_group_id
+  cluster_security_group_id = module.eks_SG.security_group_id
+  create_kms_key = false
+  cluster_encryption_config = [{
+   provider_key_arn = "arn:aws:kms:ap-northeast-1:552166050235:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
+   resources = ["secrets"]
+  }]
 
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
@@ -134,14 +139,14 @@ module "eks" {
   create_iam_role = false
   # 기존에 있던 role matching 
   iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
-  # manage_aws_auth_configmap = true
-  # aws_auth_users = [
-  #   {
-  #     userarn  = "arn:aws:iam::552166050235:user/kw.nam"
-  #     username = "kw.nam"
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
+  manage_aws_auth_configmap = true
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::552166050235:user/kw.nam"
+      username = "kw.nam"
+      groups   = ["system:masters"]
+    },
+  ]
 
   tags = {
     Name = "${local.tag}_eks_cluster"
