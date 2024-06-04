@@ -77,7 +77,7 @@ module "eks_SG" {
     {
       from_port   = local.any_protocol
       to_port     = local.any_protocol
-      protocol    = local.tcp_protocol
+      protocol    = local.any_protocol
       description = "all"
       cidr_blocks = local.all_network
     },
@@ -86,7 +86,7 @@ module "eks_SG" {
     {
       from_port   = local.any_protocol
       to_port     = local.any_protocol
-      protocol    = local.tcp_protocol
+      protocol    = local.any_protocol
       description = "all"
       cidr_blocks = local.all_network
     },
@@ -188,7 +188,7 @@ module "BastionHost_SG" {
     {
       from_port   = local.any_protocol
       to_port     = local.any_protocol
-      protocol    = local.tcp_protocol
+      protocol    = local.any_protocol
       description = "all"
       cidr_blocks = local.all_network
     },
