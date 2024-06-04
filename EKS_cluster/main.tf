@@ -64,8 +64,40 @@ module "vpc" {
 #----------------------------------------------------------------------------#
 # AWS EKS Cluster Data Source
 
-# cluster admin 데이터 참조로 id 값 참조
+# Security-Group (eks)
+module "eks_SG" {
+  source          = "terraform-aws-modules/security-group/aws"
+  version         = "5.1.0"
+  name            = "${local.tag}-cluster-security-group"
+  description     = "BastionHost_SG"
+  vpc_id          = module.vpc.vpc_id
+  use_name_prefix = "false"
 
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = local.any_protocol
+      to_port     = local.any_protocol
+      protocol    = local.tcp_protocol
+      description = "all"
+      cidr_blocks = local.all_network
+    },
+  ]
+  egress_with_cidr_blocks = [
+    {
+      from_port   = local.any_protocol
+      to_port     = local.any_protocol
+      protocol    = local.tcp_protocol
+      description = "all"
+      cidr_blocks = local.all_network
+    },
+  ]
+  tags = {
+    Name = "${local.tag}_bastionhost_sg"
+  }
+}
+
+
+# cluster admin 데이터 참조로 id 값 참조
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -78,7 +110,8 @@ module "eks" {
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
   subnet_ids                      = module.vpc.private_subnets
-
+  cluster_security_group_id = module.eks_SG.id
+  
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
   #EKS Worker Node 정의 ( ManagedNode방식 / Launch Template 자동 구성 )
@@ -150,6 +183,15 @@ module "BastionHost_SG" {
       cidr_blocks = local.cidr
     },
 
+  ]
+    egress_with_cidr_blocks = [
+    {
+      from_port   = local.any_protocol
+      to_port     = local.any_protocol
+      protocol    = local.tcp_protocol
+      description = "all"
+      cidr_blocks = local.all_network
+    },
   ]
   tags = {
     Name = "${local.tag}_bastionhost_sg"
