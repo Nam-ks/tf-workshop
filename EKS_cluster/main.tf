@@ -112,10 +112,10 @@ module "eks" {
   subnet_ids                      = module.vpc.private_subnets
   cluster_security_group_id = module.eks_SG.security_group_id
   create_kms_key = false
-  cluster_encryption_config = [{
+  cluster_encryption_config = {
    provider_key_arn = "arn:aws:kms:ap-northeast-1:552166050235:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
    resources = ["secrets"]
-  }]
+  }
 
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
