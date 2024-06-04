@@ -101,7 +101,7 @@ module "eks_SG" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.21.0"
+  version = "20.12.0"
 
   # EKS Cluster Setting
   cluster_name                    = "nam-terra-eks"
@@ -111,6 +111,7 @@ module "eks" {
   vpc_id                          = module.vpc.vpc_id
   subnet_ids                      = module.vpc.private_subnets
   cluster_security_group_id = module.eks_SG.security_group_id
+  enable_cluster_creator_admin_permissions = true
   create_kms_key = false
   cluster_encryption_config = {
    provider_key_arn = "arn:aws:kms:ap-northeast-1:552166050235:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
@@ -135,6 +136,7 @@ module "eks" {
       desired_size = "2"
     }
   }
+
   #role 생성 false
   create_iam_role = false
   # 기존에 있던 role matching 
