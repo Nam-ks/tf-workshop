@@ -89,7 +89,7 @@ module "eks" {
       ami_type              = "AL2_x86_64"
       instance_types        = ["t3.medium"]
       create_security_group = false
-      use_name_prefix       = false
+      create_launch_template = false # Required Option 
       #  create_launch_template = false
       launch_template_name = "nam_temp_null_terra"
 
@@ -98,18 +98,18 @@ module "eks" {
       desired_size = "2"
     }
   }
-  #role 생성 false
-  create_iam_role = false
-  # 기존에 있던 role matching 
-  iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
-  # manage_aws_auth_configmap = true
-  # aws_auth_users = [
-  #   {
-  #     userarn  = "arn:aws:iam::552166050235:user/admin"
-  #     username = "admin"
-  #     groups   = ["system:masters"]
-  #   },
-  # ]
+  # #role 생성 false
+  # create_iam_role = false
+  # # 기존에 있던 role matching 
+  # iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
+  manage_aws_auth_configmap = true
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::552166050235:user/kw.nam"
+      username = "kw.nam"
+      groups   = ["system:masters"]
+    },
+  ]
 
   tags = {
     Name = "${local.tag}_eks_cluster"
