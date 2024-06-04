@@ -89,9 +89,8 @@ module "eks" {
       ami_type              = "AL2_x86_64"
       instance_types        = ["t3.medium"]
       create_security_group = false
-      create_launch_template = false # Required Option 
-      #  create_launch_template = false
-      launch_template_name = "nam_temp_null_terra"
+      create_launch_template = false 
+      #launch_template_name = "nam_temp_null_terra"
 
       min_size     = "2"
       max_size     = "3"
