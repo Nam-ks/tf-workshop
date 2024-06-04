@@ -139,14 +139,14 @@ module "eks" {
   create_iam_role = false
   # 기존에 있던 role matching 
   iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
-  manage_aws_auth_configmap = true
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:iam::552166050235:user/kw.nam"
-      username = "kw.nam"
-      groups   = ["system:masters"]
-    },
-  ]
+  # manage_aws_auth_configmap = true
+  # aws_auth_users = [
+  #   {
+  #     userarn  = "arn:aws:iam::552166050235:user/kw.nam"
+  #     username = "kw.nam"
+  #     groups   = ["system:masters"]
+  #   },
+  # ]
 
   tags = {
     Name = "${local.tag}_eks_cluster"
