@@ -149,7 +149,7 @@ module "eks" {
   # ]
 
   tags = {
-    Name = "${local.tag}_eks_cluster"
+    Name = "${local.tag}_eks_cluster_teg"
   }
 }
 
