@@ -14,5 +14,5 @@ variable "account_id" {
 variable "eks_oidc" {
   description = "eks oidc"
   type        = string
-  default     = split("/", module.eks.cluster_oidc_issuer_url)[length(split("/", module.eks.cluster_oidc_issuer_url)) - 1]
+  default     = "E6569989B19EE804C1D6C4CE94EE14EC"
 }
