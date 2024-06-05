@@ -22,13 +22,13 @@ resource "aws_iam_role" "alb_role" {
         {
           "Effect" : "Allow",
           "Principal" : {
-            "Federated" : "arn:aws:iam::${var.account_id}:oidc-provider/oidc.eks.ap-northeast-1.amazonaws.com/id/${module.eks.oidc}"
+            "Federated" : "arn:aws:iam::${var.account_id}:oidc-provider/oidc.eks.ap-northeast-1.amazonaws.com/id/${var.eks_oidc}"
           },
           "Action" : "sts:AssumeRoleWithWebIdentity",
           "Condition" : {
             "StringEquals" : {
-              "oidc.eks.ap-northeast-2.amazonaws.com/id/${module.eks.oidc}:sub" : "system:serviceaccount:kube-system:aws-load-balancer-controller",
-              "oidc.eks.ap-northeast-2.amazonaws.com/id/${module.eks.oidc}:aud" : "sts.amazonaws.com"
+              "oidc.eks.ap-northeast-2.amazonaws.com/id/${var.eks_oidc}:sub" : "system:serviceaccount:kube-system:aws-load-balancer-controller",
+              "oidc.eks.ap-northeast-2.amazonaws.com/id/${var.eks_oidc}:aud" : "sts.amazonaws.com"
             }
           }
         }
