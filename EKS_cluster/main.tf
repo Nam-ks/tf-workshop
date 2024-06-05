@@ -20,7 +20,7 @@ provider "aws" {
 module "vpc" {
   source                 = "terraform-aws-modules/vpc/aws"
   version                = "5.8.1"
-  name                   = "nam-terra-vpc"
+  name                   = "${local.tag}-vpc"
   azs                    = local.azs
   cidr                   = local.cidr
   public_subnets         = local.public_subnets
@@ -92,7 +92,7 @@ module "eks_SG" {
     },
   ]
   tags = {
-    Name = "${local.tag}_bastionhost_sg"
+    Name = "${local.tag}_eks_sg"
   }
 }
 
@@ -104,12 +104,12 @@ module "eks_SG" {
 
 # AWS EKS Cluster Data Source
 data "aws_eks_cluster" "cluster" {
-  name = "nam-terra-eks"
+  name = "${local.tag}-eks"
 }
 
 # AWS EKS Cluster Auth Data Source
 data "aws_eks_cluster_auth" "cluster" {
-  name = "nam-terra-eks"
+  name = "${local.tag}-eks"
 }
 
 provider "kubernetes" {
@@ -124,16 +124,18 @@ module "eks" {
   version = "19.21.0"
 
   # EKS Cluster Setting
-  cluster_name                    = "nam-terra-eks"
+  cluster_name                    = "${local.tag}-eks"
   cluster_version                 = "1.29"
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
   vpc_id                          = module.vpc.vpc_id
   subnet_ids                      = module.vpc.private_subnets
+  create_cluster_security_group = false
   cluster_security_group_id = module.eks_SG.security_group_id
+  # cluster_security_group_name = "${local.tag}-eks-cluster-sg"
   create_kms_key = false
   cluster_encryption_config = {
-   provider_key_arn = "arn:aws:kms:ap-northeast-1:552166050235:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
+   provider_key_arn = "arn:aws:kms:ap-northeast-1:${local.account_id}:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
    resources = ["secrets"]
   }
 
@@ -159,12 +161,12 @@ module "eks" {
   #role 생성 false
   create_iam_role = false
   # 기존에 있던 role matching 
-  iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
+  iam_role_arn              = "arn:aws:iam::${local.account_id}:role/eksClusterRole"
   #19모듈 이전에 있던 auth config map
   manage_aws_auth_configmap = true
   aws_auth_users = [
     {
-      userarn  = "arn:aws:iam::552166050235:user/kw.nam"
+      userarn  = "arn:aws:iam::${local.account_id}:user/kw.nam"
       username = "kw.nam"
       groups   = ["system:masters"]
     },
