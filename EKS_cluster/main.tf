@@ -69,7 +69,7 @@ module "eks_SG" {
   source          = "terraform-aws-modules/security-group/aws"
   version         = "5.1.0"
   name            = "${local.tag}-cluster-security-group"
-  description     = "BastionHost_SG"
+  description     = "eks_SG"
   vpc_id          = module.vpc.vpc_id
   use_name_prefix = "false"
 
@@ -248,7 +248,7 @@ resource "aws_instance" "BastionHost" {
   key_name                    = data.aws_key_pair.EC2-Key.key_name
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
-  vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks_SG.cluster_security_group_id]
+  vpc_security_group_ids      = [module.BastionHost_SG.security_group_id, module.eks_SG.security_group_id]
 
   tags = {
     Name = "${local.tag}_bastion_host"
