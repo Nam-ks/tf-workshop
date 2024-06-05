@@ -131,7 +131,7 @@ module "eks" {
       #create_launch_template = false # Required Option 
       launch_template_name = "nam_temp_null_terra"
 
-      min_size     = "2"
+      min_size     = "1"
       max_size     = "3"
       desired_size = "2"
     }
@@ -141,6 +141,7 @@ module "eks" {
   create_iam_role = false
   # 기존에 있던 role matching 
   iam_role_arn              = "arn:aws:iam::552166050235:role/eksClusterRole"
+  # 19모듈 이전에 있던 auth config map
   # manage_aws_auth_configmap = true
   # aws_auth_users = [
   #   {
