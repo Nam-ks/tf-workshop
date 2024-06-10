@@ -185,7 +185,7 @@ resource "kubernetes_deployment" "namserver" {
 }
 
 
-resource "kubernetes_service" "namserver-service" {
+resource "kubernetes_service_v1" "namserver-service" {
   metadata {
     name = "namserver-service"
     namespace = "cloudnetworks"
@@ -206,36 +206,37 @@ resource "kubernetes_service" "namserver-service" {
   }
 }
 
-resource "kubernetes_ingress" "namserver-ingress" {
+resource "kubernetes_ingress_v1" "namserver-ingress" {
   metadata {
     name = "namserver-ingress"
     namespace = "cloudnetworks"
     annotations = {
-        "kubernetes.io/ingress.class" = "alb"
-        "alb.ingress.kubernetes.io/scheme" = "internet-facing"
-        "alb.ingress.kubernetes.io/subnets" = "subnet-026853e3452e8d3c7,subnet-0c6b57b7c434d928a"
-        "alb.ingress.kubernetes.io/target-type" = "instance"
+      "kubernetes.io/ingress.class" = "alb"
+      "alb.ingress.kubernetes.io/scheme" = "internet-facing"
+      "alb.ingress.kubernetes.io/subnets" = "subnet-026853e3452e8d3c7,subnet-0c6b57b7c434d928a"
+      "alb.ingress.kubernetes.io/target-type" = "instance"
     }
   }
+
   spec {
-    backend {
-      service_name = "namserver-service"
-      service_port = 8080
-    }
+    ingress_class_name = "alb"
     rule {
       http {
         path {
+          path = "/"
           backend {
-            service_name = "namserver-service"
-            service_port = 8080
+            service {
+              name = "namserver-service"
+              port {
+                number = 80
+              }
+            }
           }
-          path = "/*"
         }
       }
     }
   }
 }
-
 
 #-----------------------------------------------------------------
 # external_dns 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 controller 생성
