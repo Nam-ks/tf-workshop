@@ -195,7 +195,7 @@ resource "kubernetes_service" "namserver_service" {
     name = "terraform-example"
     namespace = "cloudnetworks"
     annotations = {
-    service.beta.kubernetes.io/aws-load-balancer-internal = "true"  
+    service.beta.kubernetes.io/aws-load-balancer-controller = "true"  
     }
   }
 
