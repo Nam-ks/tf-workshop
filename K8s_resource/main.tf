@@ -194,7 +194,12 @@ resource "kubernetes_service" "namserver_service" {
   metadata {
     name = "terraform-example"
     namespace = "cloudnetworks"
+    annotations = {
+    service.beta.kubernetes.io/aws-load-balancer-internal = "true"  
+    }
   }
+
+
   spec {
     selector = {
       test = kubernetes_deployment.namserver.metadata.0.labels.test
