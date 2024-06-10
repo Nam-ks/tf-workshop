@@ -214,7 +214,7 @@ resource "kubernetes_ingress_v1" "namserver-ingress" {
       "kubernetes.io/ingress.class" = "alb"
       "alb.ingress.kubernetes.io/scheme" = "internet-facing"
       "alb.ingress.kubernetes.io/subnets" = "subnet-026853e3452e8d3c7,subnet-0c6b57b7c434d928a"
-      "alb.ingress.kubernetes.io/target-type" = "instance"
+      "alb.ingress.kubernetes.io/target-type" = "ip"
     }
   }
 
@@ -228,7 +228,7 @@ resource "kubernetes_ingress_v1" "namserver-ingress" {
             service {
               name = "namserver-service"
               port {
-                number = 80
+                number = 8080
               }
             }
           }
