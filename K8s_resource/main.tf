@@ -214,6 +214,7 @@ resource "kubernetes_service" "namserver_service" {
 resource "kubernetes_ingress" "namserver_ingress" {
   metadata {
     name = "namserver-ingress"
+    namespace = "cloudnetworks"
   }
   spec {
     backend {
