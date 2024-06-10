@@ -131,8 +131,9 @@ resource "kubernetes_namespace" "cloudnetworks" {
 resource "kubernetes_deployment" "namserver" {
   metadata {
     name = "namserver"
+    namespace = "cloudnetworks"
     labels = {
-      test = "MyExampleApp"
+      test = "namserver"
     }
   }
 
@@ -141,14 +142,14 @@ resource "kubernetes_deployment" "namserver" {
 
     selector {
       match_labels = {
-        test = "MyExampleApp"
+        test = "namserver"
       }
     }
 
     template {
       metadata {
         labels = {
-          test = "MyExampleApp"
+          test = "namserver"
         }
       }
 
@@ -185,6 +186,27 @@ resource "kubernetes_deployment" "namserver" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service" "namserver_service" {
+  metadata {
+    name      = "namserver-service"
+    namespace = "cloudnetworks"
+  }
+
+  spec {
+    selector {
+      app = "namserver"
+    }
+
+    port {
+      protocol    = "TCP"
+      port        = 80
+      target_port = 8080
+    }
+
+    type = "NodePort"
   }
 }
 
