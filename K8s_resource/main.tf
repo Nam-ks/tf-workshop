@@ -192,11 +192,8 @@ resource "kubernetes_deployment" "namserver" {
 
 resource "kubernetes_service" "namserver_service" {
   metadata {
-    name = "terraform-example"
+    name = "namserver_service"
     namespace = "cloudnetworks"
-    annotations = {
-    service.beta.kubernetes.io/aws-load-balancer-controller = "true"  
-    }
   }
 
 
@@ -210,9 +207,34 @@ resource "kubernetes_service" "namserver_service" {
       target_port = 80
     }
 
-    type = "LoadBalancer"
+    type = "NodePort"
   }
 }
+
+resource "kubernetes_ingress" "namserver_ingress" {
+  metadata {
+    name = "namserver-ingress"
+  }
+  spec {
+    backend {
+      service_name = "namserver_service"
+      service_port = 8080
+    }
+    rule {
+      http {
+        path {
+          backend {
+            service_name = "namserver_service"
+            service_port = 8080
+          }
+          path = "/*"
+        }
+      }
+    }
+  }
+}
+
+
 #-----------------------------------------------------------------
 # external_dns 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 controller 생성
 # route 53 이 없으므로 다음에 시도
