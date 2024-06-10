@@ -155,7 +155,7 @@ resource "kubernetes_deployment" "namserver" {
 
       spec {
         container {
-          image = "nginx:1.21.6"
+          image = "nginx"
           name  = "example"
 
           resources {
@@ -223,7 +223,7 @@ resource "kubernetes_ingress_v1" "namserver-ingress" {
     rule {
       http {
         path {
-          path = "/"
+          path = "/*"
           backend {
             service {
               name = "namserver-service"
