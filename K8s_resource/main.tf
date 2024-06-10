@@ -206,10 +206,16 @@ resource "kubernetes_service" "namserver-service" {
   }
 }
 
-resource "kubernetes_ingress" "namserver_ingress" {
+resource "kubernetes_ingress" "namserver-ingress" {
   metadata {
     name = "namserver-ingress"
     namespace = "cloudnetworks"
+    annotations = {
+        kubernetes.io/ingress.class = "alb"
+        alb.ingress.kubernetes.io/scheme: "internet-facing"
+        alb.ingress.kubernetes.io/subnets: "subnet-026853e3452e8d3c7,subnet-0c6b57b7c434d928a"
+        alb.ingress.kubernetes.io/target-type: "instance"
+    }
   }
   spec {
     backend {
