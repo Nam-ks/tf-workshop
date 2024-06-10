@@ -21,3 +21,10 @@ variable "oidc_provider_arn" {
   type        = string
   default     = "arn:aws:iam::552166050235:oidc-provider/oidc.eks.ap-northeast-1.amazonaws.com/id/E6569989B19EE804C1D6C4CE94EE14EC"
 }
+
+
+variable "cluster_name" {
+  description = "cluster_nam"
+  type        = string
+  default     = "nam-terra-eks"
+}

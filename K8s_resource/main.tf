@@ -44,7 +44,7 @@ provider "helm" {
 }
 
 #-----------------------------------------------------------------
-#alb irsa 롤을 설정하고 sa를 만들어서 binding 까지 해줌
+#alb irsa 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 helm 으로 alb controller 배포
 #-----------------------------------------------------------------
 module "load_balancer_controller_irsa_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
@@ -106,7 +106,7 @@ resource "helm_release" "aws-load-balancer-controller" {
 
   set {
     name  = "clusterName"
-    value = local.tag
+    value = var.cluster_name
   }
   set {
     name  = "serviceAccount.create"
@@ -119,3 +119,72 @@ resource "helm_release" "aws-load-balancer-controller" {
 
   depends_on = [kubernetes_service_account.aws-load-balancer-controller]
 }
+
+#-----------------------------------------------------------------
+# external_dns 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 controller 생성
+# route 53 이 없으므로 다음에 시도
+#-----------------------------------------------------------------
+
+# data "aws_route53_zone" "route_53" {
+#   zone_id = ""
+# }
+
+# #ex dns irsa
+# resource "kubernetes_service_account" "external-dns" {
+#   metadata {
+#     name      = "external-dns"
+#     namespace = "kube-system"
+#     annotations = {
+#       "eks.amazonaws.com/role-arn" = module.external_dns_irsa_role.iam_role_arn
+#     }
+#   }
+
+#   depends_on = [module.external_dns_irsa_role]
+# }
+
+# module "external_dns_irsa_role" {
+#   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+#   role_name                     = "${local.name}-externaldns-irsa-role"
+#   attach_external_dns_policy    = true
+#   external_dns_hosted_zone_arns = [data.aws_route53_zone.route_53.arn]
+
+#   oidc_providers = {
+#     main = {
+#       provider_arn               = var.oidc_provider_arn
+#       namespace_service_accounts = ["kube-system:external-dns"]
+#     }
+#   }
+
+#   tags = {
+#     Name = "${var.tag}_terra_dns_irsa"
+#   }
+
+#   depends_on = [kubernetes_service_account.aws-load-balancer-controller]
+# }
+
+# resource "helm_release" "external_dns" {
+#   name       = "external-dns"
+#   namespace  = "kube-system"
+#   repository = "https://charts.bitnami.com/bitnami"
+#   chart      = "external-dns"
+#   wait       = false
+#   set {
+#     name  = "provider"
+#     value = "aws"
+#   }
+#   set {
+#     name  = "serviceAccount.create"
+#     value = false
+#   }
+#   set {
+#     name  = "serviceAccount.name"
+#     value = "external-dns"
+#   }
+#   set {
+#     name  = "policy"
+#     value = "sync"
+#   }
+#   depends_on = [kubernetes_service_account.external-dns, helm_release.aws-load-balancer-controller]
+# }
+
