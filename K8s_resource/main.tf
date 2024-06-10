@@ -173,11 +173,6 @@ resource "kubernetes_deployment" "namserver" {
             http_get {
               path = "/"
               port = 80
-
-              http_header {
-                name  = "X-Custom-Header"
-                value = "Awesome"
-              }
             }
 
             initial_delay_seconds = 3
@@ -190,7 +185,7 @@ resource "kubernetes_deployment" "namserver" {
 }
 
 
-resource "kubernetes_service" "namserver_service" {
+resource "kubernetes_service" "namserver-service" {
   metadata {
     name = "namserver-service"
     namespace = "cloudnetworks"
