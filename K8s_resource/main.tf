@@ -155,7 +155,7 @@ resource "kubernetes_deployment" "namserver" {
 
       spec {
         container {
-          image = "nginx"
+          image = "nginx:1.21.6"
           name  = "example"
 
           resources {
