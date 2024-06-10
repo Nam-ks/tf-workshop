@@ -192,7 +192,7 @@ resource "kubernetes_deployment" "namserver" {
 
 resource "kubernetes_service" "namserver_service" {
   metadata {
-    name = "namserver_service"
+    name = "namserver-service"
     namespace = "cloudnetworks"
   }
 
@@ -217,14 +217,14 @@ resource "kubernetes_ingress" "namserver_ingress" {
   }
   spec {
     backend {
-      service_name = "namserver_service"
+      service_name = "namserver-service"
       service_port = 8080
     }
     rule {
       http {
         path {
           backend {
-            service_name = "namserver_service"
+            service_name = "namserver-service"
             service_port = 8080
           }
           path = "/*"
