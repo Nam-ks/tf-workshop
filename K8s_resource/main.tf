@@ -121,6 +121,74 @@ resource "helm_release" "aws-load-balancer-controller" {
 }
 
 #-----------------------------------------------------------------
+# test namepsace 배포 및 ngnix test deploment 배포
+#-----------------------------------------------------------------
+resource "kubernetes_namespace" "cloudnetworks" {
+  metadata {
+    name = "cloudnetworks"
+  }
+}
+resource "kubernetes_deployment" "namserver" {
+  metadata {
+    name = "namserver"
+    labels = {
+      test = "MyExampleApp"
+    }
+  }
+
+  spec {
+    replicas = 2
+
+    selector {
+      match_labels = {
+        test = "MyExampleApp"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          test = "MyExampleApp"
+        }
+      }
+
+      spec {
+        container {
+          image = "nginx:1.21.6"
+          name  = "example"
+
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
+
+          liveness_probe {
+            http_get {
+              path = "/"
+              port = 80
+
+              http_header {
+                name  = "X-Custom-Header"
+                value = "Awesome"
+              }
+            }
+
+            initial_delay_seconds = 3
+            period_seconds        = 3
+          }
+        }
+      }
+    }
+  }
+}
+
+#-----------------------------------------------------------------
 # external_dns 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 controller 생성
 # route 53 이 없으므로 다음에 시도
 #-----------------------------------------------------------------
