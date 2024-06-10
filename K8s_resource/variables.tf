@@ -19,5 +19,5 @@ variable "eks_oidc" {
 variable "oidc_provider_arn" {
   description = "cluster oidc arn"
   type        = string
-  default     = "https://E6569989B19EE804C1D6C4CE94EE14EC.gr7.ap-northeast-1.eks.amazonaws.com"
+  default     = "arn:aws:iam::552166050235:oidc-provider/oidc.eks.ap-northeast-1.amazonaws.com/id/E6569989B19EE804C1D6C4CE94EE14EC"
 }
