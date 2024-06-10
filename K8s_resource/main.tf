@@ -189,27 +189,25 @@ resource "kubernetes_deployment" "namserver" {
   }
 }
 
+
 resource "kubernetes_service" "namserver_service" {
   metadata {
-    name      = "namserver-service"
+    name = "terraform-example"
     namespace = "cloudnetworks"
   }
-
   spec {
-    selector {
-      app = "namserver"
+    selector = {
+      test = kubernetes_deployment.namserver.metadata.0.labels.test
     }
-
+    session_affinity = "ClientIP"
     port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = 8080
+      port        = 8080
+      target_port = 80
     }
 
-    type = "NodePort"
+    type = "LoadBalancer"
   }
 }
-
 #-----------------------------------------------------------------
 # external_dns 롤을 설정하고 sa를 만들어서 binding 까지 해준 후 controller 생성
 # route 53 이 없으므로 다음에 시도
