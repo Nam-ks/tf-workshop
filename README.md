@@ -2,7 +2,7 @@
 
 | 작성자 | 남권우 주임 |
 | --- | --- |
-| 작성일시 | 2024.06.04 |
+| 작성일시 | 2024.06.11 |
 
 ## **목차**
 
@@ -36,7 +36,7 @@
 
 ### 2) 아키텍처 정보
 
-![Untitled](%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20cc1ffeb326874539a1d0e826956732e2/Untitled.png)
+![Untitled](https://github.com/Nam-ks/tf-workshop/assets/147022481/9c27c231-2307-42d9-a8a1-39c093413973)
 
 - EKS Cluster 구축 
 - VPC 리전 : 도쿄 / az : 1a, 1c 
@@ -82,7 +82,8 @@ Korean Language Pack for Visual Studio code (vs code 한글 패치)
 - 아키텍처 특성을 고려하여 workspace를 2개 구성
 - aws infra workspace / kubernetes infra workspace
 
-![Untitled](%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20cc1ffeb326874539a1d0e826956732e2/Untitled%201.png)
+![Untitled 1](https://github.com/Nam-ks/tf-workshop/assets/147022481/3c88d7b0-6465-48c2-8a9b-59d391512efb)
+
 
 - Secure Variable Storage 설정 ( aws credential 환경 변수 설정 )
 - Dynamic Provider Prodential ( AWS ) 동적 자격 증명 주입을 통해 관리해서 Credential 값을 주기적으로 변동해줘야합니다.
@@ -301,8 +302,9 @@ resource "kubernetes_ingress_v1" "namserver-ingress" {
 
 ### AWS Cli를 통한 k8s 구성 환경 확인
 
-![성공 화면2.png](%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20cc1ffeb326874539a1d0e826956732e2/%25EC%2584%25B1%25EA%25B3%25B5_%25ED%2599%2594%25EB%25A9%25B42.png)
+![%EC%84%B1%EA%B3%B5_%ED%99%94%EB%A9%B42](https://github.com/Nam-ks/tf-workshop/assets/147022481/3e89fcf5-2bf5-4aab-a6b8-8f05900d47e7)
 
 ### 외부에서 접속한 화면 ( deploy 에 nginx 이미지 배포 )
 
-![성공 화면.png](%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20cc1ffeb326874539a1d0e826956732e2/%25EC%2584%25B1%25EA%25B3%25B5_%25ED%2599%2594%25EB%25A9%25B4.png)
+![%EC%84%B1%EA%B3%B5_%ED%99%94%EB%A9%B4](https://github.com/Nam-ks/tf-workshop/assets/147022481/43887ea4-e628-4ead-aa5d-bcb9b51c9dc4)
+
