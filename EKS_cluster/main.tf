@@ -7,14 +7,12 @@ terraform {
   }
 }
 
-# Configure the AWS Provider
 provider "aws" {
   region = local.region
 }
 
 #----------------------------------------------------------------------------------#
-# vpc를 구성하는 모듈이며 name, cidr, 퍼블릭 및 프라이빗 cidr값을 입력해주어야한다.
-# 태그에는 필요한 태그값들을 미리 지정 ( 테라폼 관리임을 명시 )
+# vpc를 구성하는 모듈
 #----------------------------------------------------------------------------------#
 # VPC
 module "vpc" {
@@ -58,12 +56,8 @@ module "vpc" {
 
 
 #----------------------------------------------------------------------------#
-# 붙일 vpc, name, version, subnet, oidc, worker node정의하여 생성
-# 워커 노드 그룹의 최소 최대 요구 개수를 입력받아 변경 가능하고 기본값이 각 232로 지정
-# role은 미리 정의하여 배포되어 있다고 가정
+# eks 보안그룹 ( all / all )
 #----------------------------------------------------------------------------#
-# AWS EKS Cluster Data Source
-
 # Security-Group (eks)
 module "eks_SG" {
   source          = "terraform-aws-modules/security-group/aws"
@@ -100,9 +94,10 @@ module "eks_SG" {
 #--------------------------------------------------------------------------------------------------#
 # block
 #--------------------------------------------------------------------------------------------------#
-# Kubernetes 추가 Provider
 # EKS Cluster 구성 후 초기 구성 작업을 수행하기 위한 Terraform Kubernetes Provider 설정 
 # 생성 된 EKS Cluster의 EndPoint 주소 및 인증정보등을 DataSource로 정의 후 Provider 설정 정보로 입력
+# 붙일 vpc, name, version, subnet, oidc, worker node정의하여 생성
+# eks 관련 role은 미리 정의하여 배포되어 있다고 가정 ( 없는 role 은 eks 모듈에서 생성)
 #----------------------------------------------------------------------------#
 
 # AWS EKS Cluster Data Source
@@ -138,7 +133,8 @@ module "eks" {
   # cluster_security_group_name = "${local.tag}-eks-cluster-sg"
   create_kms_key = false
   cluster_encryption_config = {
-   provider_key_arn = "arn:aws:kms:ap-northeast-1:${local.account_id}:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" # 여기에 실제 KMS 키 ARN을 입력
+    # 여기에 실제 KMS 키 ARN을 입력 기존에 생성된 키 사용
+   provider_key_arn = "arn:aws:kms:ap-northeast-1:${local.account_id}:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d" 
    resources = ["secrets"]
   }
 
