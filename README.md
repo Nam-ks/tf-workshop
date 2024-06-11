@@ -9,13 +9,14 @@
 ---
 
 1. 사전 정보
-1) 진행 정보
-2) 아키텍처 정보
+   1) 진행 정보
+   2) 아키텍처 정보
 2. 환경 구성
-1) VS CODE  설치 및 확장 프로그램 설치
-2) aws, git hub, terraform cloud 계정
-3) TFC 설정
-3. IaC
+   1) VS CODE  설치 및 확장 프로그램 설치
+   2) aws, git hub, terraform cloud 계정
+   3) TFC 설정
+3. 코드구성
+4. 결과
 
 ---
 
