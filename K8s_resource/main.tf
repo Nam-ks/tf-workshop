@@ -123,7 +123,7 @@ resource "kubernetes_namespace" "cloudnetworks" {
 }
 resource "kubernetes_deployment" "namserver" {
   metadata {
-    name = "${test}-namserver"
+    name = "namserver"
     namespace = "cloudnetworks"
     labels = {
       test = "namserver"
