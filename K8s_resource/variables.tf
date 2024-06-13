@@ -7,19 +7,19 @@ locals {
 variable "account_id" {
   description = "account_id"
   type        = string
-  default     = "552166050235"
+  default     = ""
 }
 
 variable "eks_oidc" {
   description = "eks oidc"
   type        = string
-  default     = "E6569989B19EE804C1D6C4CE94EE14EC"
+  default     = ""
 }
 
 variable "oidc_provider_arn" {
   description = "cluster oidc arn"
   type        = string
-  default     = "arn:aws:iam::552166050235:oidc-provider/oidc.eks.ap-northeast-1.amazonaws.com/id/E6569989B19EE804C1D6C4CE94EE14EC"
+  default     = "arn:aws:iam::"
 }
 
 
