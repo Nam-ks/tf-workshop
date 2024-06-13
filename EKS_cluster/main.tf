@@ -134,7 +134,7 @@ module "eks" {
   create_kms_key = false
   cluster_encryption_config = {
     # 여기에 실제 KMS 키 ARN을 입력 기존에 생성된 키 사용
-    provider_key_arn = "arn:aws:kms:ap-northeast-1:${local.account_id}:key/f4e06898-d19e-48b9-ab74-09f92e7e7f6d"
+    provider_key_arn = "arn:aws:kms:ap-northeast-1:${local.account_id}:key/-"
     resources        = ["secrets"]
   }
 
