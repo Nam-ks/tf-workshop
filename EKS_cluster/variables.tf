@@ -19,31 +19,31 @@ locals {
 variable "region" {
   description = "region"
   type        = string
-  default = "ap-northeast-1"
+  default     = "ap-northeast-1"
 }
 
 variable "azs" {
   description = "azs"
   type        = list(any)
-  default = ["ap-northeast-1a", "ap-northeast-1c"]
+  default     = ["ap-northeast-1a", "ap-northeast-1c"]
 }
 
 variable "cidr" {
   description = "VPC CIDR BLOCK"
   type        = string
-  default = "10.0.0.0/16"
+  default     = "10.0.0.0/16"
 }
 
 variable "public_subnets" {
   description = "VPC Public Subnets"
   type        = list(any)
-  default = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "private_subnets" {
   description = "VPC Private subnets"
   type        = list(any)
-  default = ["10.0.11.0/24", "10.0.12.0/24"]
+  default     = ["10.0.11.0/24", "10.0.12.0/24"]
 }
 
 variable "tag" {
