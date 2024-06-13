@@ -28,7 +28,3 @@ variable "cluster_name" {
   type        = string
   default     = "nam-terra-eks"
 }
-
-output "test_ven" {
-  value = "${test}"
-}
