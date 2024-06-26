@@ -59,36 +59,36 @@ module "vpc" {
 # eks 보안그룹 ( all / all )
 #----------------------------------------------------------------------------#
 # Security-Group (eks)
-module "eks_SG" {
-  source          = "terraform-aws-modules/security-group/aws"
-  version         = "5.1.0"
-  name            = "${local.tag}-cluster-security-group"
-  description     = "eks_SG"
-  vpc_id          = module.vpc.vpc_id
-  use_name_prefix = "false"
+# module "eks_SG" {
+#   source          = "terraform-aws-modules/security-group/aws"
+#   version         = "5.1.0"
+#   name            = "${local.tag}-cluster-security-group"
+#   description     = "eks_SG"
+#   vpc_id          = module.vpc.vpc_id
+#   use_name_prefix = "false"
 
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = local.any_protocol
-      to_port     = local.any_protocol
-      protocol    = local.any_protocol
-      description = "all"
-      cidr_blocks = local.all_network
-    },
-  ]
-  egress_with_cidr_blocks = [
-    {
-      from_port   = local.any_protocol
-      to_port     = local.any_protocol
-      protocol    = local.any_protocol
-      description = "all"
-      cidr_blocks = local.all_network
-    },
-  ]
-  tags = {
-    Name = "${local.tag}_eks_sg"
-  }
-}
+#   ingress_with_cidr_blocks = [
+#     {
+#       from_port   = local.any_protocol
+#       to_port     = local.any_protocol
+#       protocol    = local.any_protocol
+#       description = "all"
+#       cidr_blocks = local.all_network
+#     },
+#   ]
+#   egress_with_cidr_blocks = [
+#     {
+#       from_port   = local.any_protocol
+#       to_port     = local.any_protocol
+#       protocol    = local.any_protocol
+#       description = "all"
+#       cidr_blocks = local.all_network
+#     },
+#   ]
+#   tags = {
+#     Name = "${local.tag}_eks_sg"
+#   }
+# }
 
 
 #--------------------------------------------------------------------------------------------------#
