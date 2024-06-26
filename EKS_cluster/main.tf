@@ -110,12 +110,12 @@ module "eks_SG" {
 #   name = "${local.tag}-eks"
 # }
 
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
-}
-# cluster admin 데이터 참조로 id 값 참조
+# provider "kubernetes" {
+#   host                   = data.aws_eks_cluster.cluster.endpoint
+#   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+#   token                  = data.aws_eks_cluster_auth.cluster.token
+# }
+# # cluster admin 데이터 참조로 id 값 참조
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
