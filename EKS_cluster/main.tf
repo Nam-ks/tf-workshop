@@ -100,15 +100,15 @@ module "eks_SG" {
 # eks 관련 role은 미리 정의하여 배포되어 있다고 가정 ( 없는 role 은 eks 모듈에서 생성)
 #----------------------------------------------------------------------------#
 
-# AWS EKS Cluster Data Source
-data "aws_eks_cluster" "cluster" {
-  name = "${local.tag}-eks"
-}
+# # AWS EKS Cluster Data Source
+# data "aws_eks_cluster" "cluster" {
+#   name = "${local.tag}-eks"
+# }
 
-# AWS EKS Cluster Auth Data Source
-data "aws_eks_cluster_auth" "cluster" {
-  name = "${local.tag}-eks"
-}
+# # AWS EKS Cluster Auth Data Source
+# data "aws_eks_cluster_auth" "cluster" {
+#   name = "${local.tag}-eks"
+# }
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
