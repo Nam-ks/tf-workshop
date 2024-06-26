@@ -18,22 +18,22 @@ output "private_subnets" {
   description = "Private_Subnets Output"
 }
 
-output "cluster_id" {
-  value       = module.eks.cluster_id
-  description = "eks_cluster_id for another works"
-}
+# output "cluster_id" {
+#   value       = module.eks.cluster_id
+#   description = "eks_cluster_id for another works"
+# }
 
-output "cluster_endpoint" {
-  value       = module.eks.cluster_endpoint
-  description = "cluster_endpoint"
-}
+# output "cluster_endpoint" {
+#   value       = module.eks.cluster_endpoint
+#   description = "cluster_endpoint"
+# }
 
-output "oidc" {
-  value       = split("/", module.eks.cluster_oidc_issuer_url)[length(split("/", module.eks.cluster_oidc_issuer_url)) - 1]
-  description = "oidc for auth"
-}
+# output "oidc" {
+#   value       = split("/", module.eks.cluster_oidc_issuer_url)[length(split("/", module.eks.cluster_oidc_issuer_url)) - 1]
+#   description = "oidc for auth"
+# }
 
 
-output "oidc_provider_arn" {
-  value = module.eks.oidc_provider_arn
-}
+# output "oidc_provider_arn" {
+#   value = module.eks.oidc_provider_arn
+# }
