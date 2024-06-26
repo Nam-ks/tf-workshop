@@ -67,5 +67,5 @@ variable "bastion_instance_type" {
 variable "account_id" {
   description = "account_id"
   type        = string
-  default     = "552166050235"
+  default     = ""
 }
