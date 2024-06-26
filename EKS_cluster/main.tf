@@ -131,11 +131,11 @@ module "eks" {
   create_cluster_security_group   = false
   cluster_security_group_id       = module.eks_SG.security_group_id
   # cluster_security_group_name = "${local.tag}-eks-cluster-sg"
-  create_kms_key = true
-  cluster_encryption_config = {
-    # 여기에 실제 KMS 키 ARN을 입력 기존에 생성된 키 사용
-    resources        = ["secrets"]
-  }
+  create_kms_key = false
+  # cluster_encryption_config = {
+  #   # 여기에 실제 KMS 키 ARN을 입력 기존에 생성된 키 사용
+  #   resources        = ["secrets"]
+  # }
 
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
