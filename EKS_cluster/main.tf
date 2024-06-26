@@ -132,7 +132,7 @@ module "eks" {
   cluster_security_group_id       = module.eks_SG.security_group_id
   # cluster_security_group_name = "${local.tag}-eks-cluster-sg"
   # create_kms_key = false
-  # cluster_encryption = false
+  cluster_encryption_config = {}
 
   # OIDC(OpenID Connect) 구성 
   enable_irsa = true
